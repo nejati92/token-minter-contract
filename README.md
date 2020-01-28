@@ -9,6 +9,7 @@
 
 # To Run test
 * truffle test
+* you will need to have ganache running on port 8545 to this work!
 
 # Deploy
 * truffle migrate --network ropsten
