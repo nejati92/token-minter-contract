@@ -6,7 +6,7 @@ const {
     assert
 } = chai
 
-var MyERC721 = artifacts.require("MyERC721");
+var MyERC721 = artifacts.require("erc721Token");
 
 contract('Testing ERC721 contract', function (accounts) {
 
@@ -35,10 +35,14 @@ contract('Testing ERC721 contract', function (accounts) {
     })
 
     it(' should rejected by evm', async () => {
-        const duplicateTokenID = token.mintUniqueTokenTo(account1, tokenId1, tokenUri2, {
-            from: accounts[0]
-        }) /
-        expect(duplicateTokenID).to.be.rejectedWith(/VM Exception while processing transaction: revert/)
+        try {
+            await token.mintUniqueTokenTo(account1, tokenId1, tokenUri2, {
+                from: accounts[0]
+            })
+        } catch (e) {
+            expect(e.message).to.be.equal('Returned error: VM Exception while processing transaction: revert')
+        }
+
     })
 
     it(' should allow creation of multiple unique tokens and manage ownership', async () => {
